@@ -65,7 +65,7 @@ const Main = () => {
                     It may display inaccurate info so be carefull 
                 </p>
                 <p className="bottom-info">
-                    Made By <span>Kumar Abhinav</span>
+                    Made By <span>Lipsa Padhy</span>
                 </p>
             </div>
         </div>
