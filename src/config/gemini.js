@@ -1,50 +1,16 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-// eslint-disable-next-line no-unused-vars
+// Safe frontend function that calls backend API
 
-
-/*
- * Install the Generative AI SDK
- *
- * $ npm install @google/generative-ai
- */
-
-import {
-    GoogleGenerativeAI,
-    // eslint-disable-next-line no-unused-vars
-    HarmCategory,
-    HarmBlockThreshold,
-  } from "@google/generative-ai"
-  
-  const apiKey = "AIzaSyAi_r73AL_YvGsDFO7CAQDQot23PQJHCm8";
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash",
+async function run(prompt) {
+  const res = await fetch("http://localhost:3000/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ prompt })
   });
-  
-  const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 64,
-    maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
-  };
-  
-  async function run(prompt) {
-    const chatSession = model.startChat({
-      generationConfig,
-   // safetySettings: Adjust safety settings
-   // See https://ai.google.dev/gemini-api/docs/safety-settings
-      history: [
-      ],
-    });
-  
-    const result = await chatSession.sendMessage(prompt);
 
-    console.log(result.response.text());
-    return result.response.text();
+  const data = await res.json();
+  return data.reply;
+}
 
-  }
-  
- export default run;
+export default run;
